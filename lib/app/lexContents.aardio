@@ -1,13 +1,14 @@
-﻿//lexManager 码表管理器
+﻿//lexContents 码表目录
 import config;
 import win.inputBox;
 import inet.downBox;
 import sevenZip.lzma;
+import app.lexNetContents;
 import fsys;
 
-namespace app.lexManager;
+namespace app.lexContents;
 
-newFile = function(winform,lexName){
+newFile = function(winform,lexName,defaultLexName){
 	while(true){
 		if(#lexName && ..fsys.path.validName(lexName) && (!..config.lex.files[lexName])){
 			break;
@@ -16,7 +17,7 @@ newFile = function(winform,lexName){
 		var inputBox = ..win.inputBox(winform)
 		inputBox.text = "wubiLex - 保存码表"
 		inputBox.info.text = "请为码表指定一个友好名称"
-		inputBox.input.text = lexName : "";
+		inputBox.input.text = lexName : defaultLexName : "";
 		
 		lexName = inputBox.doModal()
 		if(!lexName){
@@ -155,12 +156,12 @@ download = function(lexName,winform){
 			
 			var file = ..io.open(lexPath,"rb");
 			if(!file){
-				winform.msgboxErr(`错误的码表文件`)
+				winform.msgErr(`错误的码表文件`);
 				return;
 			}
 			
 			if( file.read(#"imscwubi")!=="imscwubi"){
-				winform.msgboxErr(`错误的码表文件`)
+				winform.msgErr(`错误的码表文件`);
 				file.close();
 				return;
 			}
@@ -181,67 +182,29 @@ clear = function(){
 	..config.saveAll();
 }
 
-getDefault = function(){
-	var files = {}
-	var names = {}
-	
-	files["微软五笔86( 单字 )"] = "http://wubi.aardio.com/download/lex/ChsWubi86.min.lex.lzma";
-	..table.push(names,"微软五笔86( 单字 )");
-	
-	files["微软五笔86( 完整 )"] = "http://wubi.aardio.com/download/lex/ChsWubi86.lex.lzma";
-	..table.push(names,"微软五笔86( 完整 )");
-	
-	files["QQ五笔86( 单字 )"] = "http://wubi.aardio.com/download/lex/qq86.min.lex.lzma";
-	..table.push(names,"QQ五笔86( 单字 )");
-	
-	files["QQ五笔86( 完整 )"] = "http://wubi.aardio.com/download/lex/qq86.lex.lzma";
-	..table.push(names,"QQ五笔86( 完整 )");
-	
-	files["QQ五笔98( 完整 )"] = "http://wubi.aardio.com/download/lex/qq98.lex.lzma";
-	..table.push(names,"QQ五笔98( 完整 )");
-		
-	files["极点五笔86( 单字 )"] = "http://wubi.aardio.com/download/lex/freeime86.min.lex.lzma";
-	..table.push(names,"极点五笔86( 单字 )");
-	
-	files["极点五笔86( 完整 )"] = "http://wubi.aardio.com/download/lex/freeime86.lex.lzma";
-	..table.push(names,"极点五笔86( 完整 )");
-	
-	files["昱琼词库98( 完整 )"] = "http://wubi.aardio.com/download/lex/yuqiong98.lex.lzma";
-	..table.push(names,"昱琼词库98( 完整 )");
-	
-	files["海峰词库98( 完整 )"] = "http://wubi.aardio.com/download/lex/sun98.lex.lzma";
-	..table.push(names,"海峰词库98( 完整 )");
-	
-	files["至善词库98( 单字 )"] = "http://wubi.aardio.com/download/lex/ChsWubi98.min.lex.lzma";
-	..table.push(names,"至善词库98( 单字 )");
-	
-	files["至善词库98( 完整 )"] = "http://wubi.aardio.com/download/lex/ChsWubi98.lex.lzma";
-	..table.push(names,"至善词库98( 完整 )");
-	
-	files["点儿09( 完整 )"] = "http://wubi.aardio.com/download/lex/091.lex.lzma";
-	..table.push(names,"点儿09( 完整 )");
-	
-	files["新世纪( 完整 )"] = "http://wubi.aardio.com/download/lex/06.lex.lzma";
-	..table.push(names,"新世纪( 完整 )");
-	
-	files["新世纪( 单字 )"] = "http://wubi.aardio.com/download/lex/06.min.lex.lzma";
-	..table.push(names,"新世纪( 单字 )");
-	
-	files["郑码( 大词库 )"] = "http://wubi.aardio.com/download/lex/zhengma.lex.lzma";
-	..table.push(names,"郑码( 大词库 )");
-	
-	return names,files;
+isEmpty = function(){
+	return !#..config.lex.names;
 }
-
 
 loadDefault = function(){
 	var config = ..config;
 	if(!#config.lex.names){
 		
-		var names,files = getDefault();
-		..table.mixin(config.lex.files,files);
-		..table.append(config.lex.names,names);
+		var tab = ..app.lexNetContents.getTable();
 		
+		for i,cfg in ..table.eachIndex(tab){
+			var items = cfg.items;
+			if(items[1]){
+				config.lex.files[items[1].name] = items[1].url;
+				..table.push(config.lex.names,items[1].name);
+			}
+			
+			if(items[2]){
+				config.lex.files[items[2].name] = items[2].url;
+				..table.push(config.lex.names,items[2].name);
+			}
+		}
+		 
 		config.saveAll();
 	}
 }
@@ -249,22 +212,29 @@ loadDefault = function(){
 addFile = function(winform,inputPath,lexName){
 	if(!inputPath || ..fsys.isDir(inputPath)){ return; }
 	
-	var lexPath,lexName = newFile(winform,lexName);
+	var lexDefaultLexName = lexName;
+	if(!lexDefaultLexName){
+		lexDefaultLexName = ..string.match(inputPath,"([^\\\/]+)\.\w+$");
+	}
+	
+	var lexPath,lexName = newFile(winform,lexName,lexDefaultLexName);
+	winform.publish("beforeAddLexFile")
+	
 	if( ..string.startWith(inputPath,"http://",true) ){
 		updatePath(lexName,inputPath);
-		winform.onLexManagerUpdated();
+		winform.publish("afterLexListUpdated");
 	}
-	elseif(..string.endWith(inputPath,".txt",true)){
+	elseif(..string.endWith(inputPath,".txt",true) || ..string.endWith(inputPath,".yaml",true)){
 		..win.invoke(
 			function(winform,inputPath,lexPath){
 				import wubi.lexFile;
 				var wubiLex = wubi.lexFile(inputPath)
 				if(!wubiLex){
-					winform.msgboxErr(`错误的码表文件`)
+					winform.msgErr(`错误的码表文件`)
 					return;
 				}
 				wubiLex.saveLex(lexPath)	
-				winform.onLexManagerUpdated();
+				winform.publish("afterLexListUpdated");
 				
 			},winform,inputPath,lexPath
 		)
@@ -281,7 +251,7 @@ addFile = function(winform,inputPath,lexName){
 						|| type(data[1][1])!=type.string
 						|| !string.match(data[1][1],"^[a-z]+$")
 						){
-						winform.msgboxErr("JSON文件未包含五笔码表","wubiLex")
+						winform.msgErr("JSON文件未包含五笔码表")
 						
 						winform.editLex.readonly = false;
 						winform.btnConvert.disabledText = null;
@@ -292,11 +262,11 @@ addFile = function(winform,inputPath,lexName){
 						var wubiLex = wubi.lexFile(""); 
 						wubiLex.setTableData(data);  
 						wubiLex.saveLex(lexPath)
-						winform.onLexManagerUpdated();
+						winform.publish("afterLexListUpdated");
 					}
 				}
 				else {
-					winform.msgboxErr("JSON文件未包含五笔码表","wubiLex")	
+					winform.msgErr("JSON文件未包含五笔码表")	
 				}
 				
 			},winform,inputPath,lexPath
@@ -316,7 +286,7 @@ addFile = function(winform,inputPath,lexName){
 						|| type(data[1][1])!=type.string
 						|| !string.match(data[1][1],"^[a-z]+$")
 						){
-						winform.msgboxErr("CSV文件未包含五笔码表","wubiLex")
+						winform.msgErr("CSV文件未包含五笔码表")
 						
 						winform.editLex.readonly = false;
 						winform.btnConvert.disabledText = null;
@@ -327,54 +297,54 @@ addFile = function(winform,inputPath,lexName){
 						var wubiLex = wubi.lexFile(""); 
 						wubiLex.setTableData(data);  
 						wubiLex.saveLex(lexPath)
-						winform.onLexManagerUpdated();
+						winform.publish("afterLexListUpdated");
 					}
 				}
 				else {
-					winform.msgboxErr("CSV文件未包含五笔码表","wubiLex")	
+					winform.msgErr("CSV文件未包含五笔码表")	
 				}
 				
 			},winform,inputPath,lexPath
 		)
 	}
-	elseif(string.endWith(inputPath,".lex.lzma",true)){
+	elseif(..string.endWith(inputPath,".lex.lzma",true)){
 		..sevenZip.lzma.decodeFile(inputPath,lexPath);
 		var file = ..io.open(lexPath,"rb");
 		if(!file){
-			winform.msgboxErr(`错误的码表文件`)
+			winform.msgErr(`错误的码表文件`)
 			return;
 		}
 		
 		if( file.read(#"imscwubi")!=="imscwubi"){
 			file.close();
-			winform.msgboxErr(`错误的码表文件`)
+			winform.msgErr(`错误的码表文件`)
 			return;
 		}
 		
 		file.close();
-		winform.onLexManagerUpdated();
+		winform.publish("afterLexListUpdated");
 	}
 	else {
 		var file = ..io.open(inputPath,"rb");
 		if(!file){
-			winform.msgboxErr(`错误的码表文件`)
+			winform.msgErr(`错误的码表文件`)
 			return;
 		}
 		
 		if( file.read(#"imscwubi")!=="imscwubi"){
 			file.close();
-			winform.msgboxErr(`错误的码表文件`)
+			winform.msgErr(`错误的码表文件`)
 			return;
 		}
 		
 		file.close()
 		
-		fsys.copy(inputPath,lexPath);
-		winform.onLexManagerUpdated();
+		..fsys.copy(inputPath,lexPath);
+		winform.publish("afterLexListUpdated");
 	} 
 }
 
-/**intellisense(app.lexManager)
+/**intellisense(app.lexContents)
 newFile(.(winform,lexName) = 创建新的码表文件\n可选用lexName指定默认名称
 updatePath(.(lexName,path) = 更新码表配置中的文件路径
 remove(.(lexName) = 移除指定名称的码表 
@@ -386,7 +356,7 @@ download(.(lexName,winform) = 如果码表路径是一个网址，则下载码�
 downloadByIndex(.(idx,winform) = 如果码表路径是一个网址，则下载码表
 isUrl(.(lexName) = 码表路径是否网址,\n参数也可以是索引
 clear() = 清空码表文件
+isEmpty() = 码表目录是否为空
 loadDefault() = 如果码表文件列表为空，加载默认列表
-getDefault() = 返回值为names,files\n包含默认lex配置
-addFile(.(lwinform,inputPath,lexName) = 清加码表\n可选用lexName指定默认名称
+addFile(.(winform,inputPath,lexName) = 清加码表\n可选用lexName指定默认名称
 end intellisense**/

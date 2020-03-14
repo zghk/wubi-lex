@@ -5,10 +5,10 @@ import win.ui;
 /*DSG{{*/
 var winform = win.form(text="wubiLex - 码表管理";right=977;bottom=602;bgcolor=16777215)
 winform.add(
-btnAddFile={cls="plus";text="添加码表";left=31;top=12;right=192;bottom=45;align="left";bgcolor=11580047;dl=1;dt=1;font=LOGFONT(h=-16;name='FontAwesome');iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome');padding={left=15}};iconText='\uF271';notify=1;tabstop=1;textPadding={left=39};z=1};
-btnCopyToSystem={cls="plus";text="安装到系统码表";left=201;top=12;right=394;bottom=45;align="left";bgcolor=11580047;disabled=1;dl=1;dt=1;font=LOGFONT(h=-16;name='FontAwesome');iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome');padding={left=15}};iconText='\uF17A ';notify=1;tabstop=1;textPadding={left=39};z=2};
+btnAddFile={cls="plus";text="添加码表";left=32;top=11;right=193;bottom=44;align="left";bgcolor=11580047;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome');padding={left=15}};iconText='\uF271';notify=1;tabstop=1;textPadding={left=39};z=2};
+btnCopyToSystem={cls="plus";text="安装到系统码表";left=201;top=12;right=394;bottom=45;align="left";bgcolor=11580047;disabled=1;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome');padding={left=15}};iconText='\uF17A ';notify=1;tabstop=1;textPadding={left=39};z=3};
 btnSave={cls="plus";text="保存码表";left=802;top=560;right=937;bottom=596;align="left";bgcolor=11580047;db=1;dr=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome');padding={left=15}};iconText='\uF0C7';notify=1;tabstop=1;textPadding={left=39};z=7};
-btnSearch={cls="plus";text='\uF002';left=604;top=569;right=633;bottom=592;color=3947580;db=1;dr=1;font=LOGFONT(h=-16;name='FontAwesome');iconColor=2960685;notify=1;z=5};
+btnSearch={cls="plus";text='\uF002';left=604;top=569;right=633;bottom=592;color=3947580;db=1;dr=1;font=LOGFONT(h=-16;name='FontAwesome');iconColor=2960685;notify=1;z=6};
 btnSimplified={cls="plus";text="精简码表";left=659;top=560;right=794;bottom=596;align="left";bgcolor=11580047;db=1;dr=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome');padding={left=15}};iconText='\uF03A';notify=1;tabstop=1;textPadding={left=39};z=8};
 ddChar1={cls="plus";text="仅保留单字";left=659;top=373;right=876;bottom=404;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);notify=1;tabstop=1;textPadding={left=20};z=10};
 ddChar2={cls="plus";text="仅保留单字、双字词";left=659;top=404;right=876;bottom=435;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);notify=1;tabstop=1;textPadding={left=20};z=9};
@@ -19,10 +19,10 @@ ddSaveToSystem={cls="plus";text="存为系统码表";left=803;top=599;right=974;
 ddSimplified={cls="plus";text="一字一码 ( 出简不出全 )";left=659;top=435;right=876;bottom=466;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);notify=1;tabstop=1;textPadding={left=20};z=13};
 ddSimplized={cls="plus";text="移除繁体字";left=659;top=528;right=876;bottom=559;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);notify=1;tabstop=1;textPadding={left=20};z=11};
 ddUnique={cls="plus";text="一码一词 ( 不限单字 )";left=659;top=466;right=876;bottom=497;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);notify=1;tabstop=1;textPadding={left=20};z=15};
-editLex={cls="edit";left=281;top=59;right=969;bottom=556;db=1;dl=1;dr=1;dt=1;edge=1;font=LOGFONT(h=-16);multiline=1;vscroll=1;z=6};
+editLex={cls="edit";left=281;top=59;right=969;bottom=556;db=1;dl=1;dr=1;dt=1;edge=1;font=LOGFONT(h=-16);multiline=1;vscroll=1;z=1};
 editSearch={cls="plus";left=330;top=566;right=595;bottom=590;align="right";border={bottom=1;color=-8355712};db=1;dl=1;dr=1;editable=1;font=LOGFONT(h=-16);z=14};
-lbTip={cls="plus";left=410;top=15;right=946;bottom=49;color=2960685;font=LOGFONT(h=-16;name='FontAwesome');z=4};
-listbox={cls="listbox";left=11;top=59;right=275;bottom=595;db=1;dl=1;dt=1;edge=1;font=LOGFONT(h=-16);items={};vscroll=1;z=3}
+lbTip={cls="plus";left=410;top=15;right=946;bottom=49;color=2960685;font=LOGFONT(h=-16;name='FontAwesome');z=5};
+listbox={cls="listbox";left=11;top=59;right=275;bottom=595;db=1;dl=1;dt=1;edge=1;font=LOGFONT(h=-16);items={};vscroll=1;z=4}
 )
 /*}}*/
 
@@ -32,22 +32,24 @@ import wubi.lexFile;
 import win.inputBox;
 import sevenZip.lzma;
 import config;
-import app.lexManager;
+import app.lexContents;
+import win.dlg.message;
+win.dlg.message.install();
 
 winform.lbTip.busy = function(busy,text){
 	if(busy){
-		winform.lbTip.text = text : ""
+		winform.lbTip.text = text : "";
 		winform.lbTip.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}	
 	}
 	else {
 		winform.lbTip.disabledText = null;
-		winform.lbTip.text = text : "" 
+		winform.lbTip.text = text : "";
 	}
 }
 
 winform.editLex.busy = function(busy,text){
 	if(busy){
-		winform.lbTip.text = text : ""
+		winform.lbTip.text = text : "";
 		winform.lbTip.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
 		winform.editLex.readonly = true;
 	}
@@ -72,37 +74,34 @@ winform.btnSimplified.busy = function(busy,text){
 	}
 }
 
-winform.onLexManagerUpdated = function(){
-	winform.listbox.reloadLexList();
-	winform.btnAddFile.disabledText = null;
-}
-
-winform.btnAddFile.oncommand = function(id,event){
+subscribe("beforeAddLexFile",function(...){
 	winform.btnAddFile.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
-	var inputPath = fsys.dlg.open("二进制码表(*.lex);文本码表(*.txt,*.csv,*.json)|*.lex;*.txt;*.csv;*.json||",,,winform)
-	app.lexManager.addFile(winform,inputPath);
-}
+} )
+
+subscribe("afterLexListUpdated",function(...){
+	winform.listbox.reloadLexList();
+	winform.btnAddFile.disabledText = null;	
+} )
 
 import process.admin;
 process.admin.enableDropMsg(winform.hwnd);
 winform.onDropFiles = function(files){
-	winform.btnAddFile.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
-	app.lexManager.addFile(winform,files[1]) 
+	app.lexContents.addFile(winform,files[1]) 
 }
 
-import app.lexManager;
-app.lexManager.loadDefault();
+import app.lexContents;
+app.lexContents.loadDefault();
 
 import tsfUtil;
 import key.ime;
 winform.btnCopyToSystem.oncommand = function(id,event){
 	var selIndex = winform.listbox.selIndex-1;  
 	if(selIndex){  
-		if( app.lexManager.isUrl(selIndex) ) {
-			if( ! app.lexManager.downloadByIndex(selIndex,winform) ) return;
+		if( app.lexContents.isUrl(selIndex) ) {
+			if( ! app.lexContents.downloadByIndex(selIndex,winform) ) return;
 		};
 		
-		var srcPath = app.lexManager.getPathByIndex(selIndex);
+		var srcPath = app.lexContents.getPathByIndex(selIndex);
 		if(!..io.exist(srcPath)){
 			winform.msgErr("码表路径错误")
 			return;
@@ -111,6 +110,8 @@ winform.btnCopyToSystem.oncommand = function(id,event){
 		winform.editLex.setFocus(); 					
 		winform.btnCopyToSystem.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
 		winform.lbTip.text = "安装需要几分钟，请耐心等待 ..."
+		winform.listbox.disabled = true;
+		winform.btnSave.disabled = true;
 	  
 		var ok,err = win.invoke(
 			function(srcPath,winform){
@@ -122,6 +123,8 @@ winform.btnCopyToSystem.oncommand = function(id,event){
 	  	key.ime.changeRequest(0x4090409); 
 		winform.lbTip.text = ok?'安装成功，如果不能输入，请按 Alt + Shift 来回切换一下即可': string.concat( "安装失败：",err);
 		winform.btnCopyToSystem.disabledText = null; 
+		winform.listbox.disabled = false;
+		winform.btnSave.disabled = false;
 	}	
 }
 
@@ -132,7 +135,7 @@ winform.listbox.onSelChange = function(){
 	winform.btnCopyToSystem.disabled = selIndex<=1 
 }
 
-import app.lexManager;
+import app.lexContents;
 winform.listbox.wndproc = function(hwnd,message,wParam,lParam){
 	select( message ) {   
 		case 0x205/*_WM_RBUTTONUP*/{
@@ -146,14 +149,14 @@ winform.listbox.wndproc = function(hwnd,message,wParam,lParam){
 				if(selIndex>1){	
 					winform.btnCopyToSystem.disabled = false;
 					
-					if( app.lexManager.isUrl(selIndex-1) ){
+					if( app.lexContents.isUrl(selIndex-1) ){
 						winform.popmenu.add('自服务器下载安装此码表',function(id){ 
-							app.lexManager.downloadByIndex(selIndex-1,winform);
+							app.lexContents.downloadByIndex(selIndex-1,winform);
 						} ) 
 						
 						winform.popmenu.add('删除',function(id){ 
 							winform.listbox.delete(selIndex);
-							app.lexManager.removeByIndex(selIndex-1);
+							app.lexContents.removeByIndex(selIndex-1);
 						} ) 	
 							
 						winform.popmenu.popup(x,y,true)
@@ -163,7 +166,7 @@ winform.listbox.wndproc = function(hwnd,message,wParam,lParam){
 					
 					winform.popmenu.add('删除',function(id){ 
 						winform.listbox.delete(selIndex);
-						app.lexManager.removeByIndex(selIndex-1);
+						app.lexContents.removeByIndex(selIndex-1);
 					} ) 
 					
 					winform.popmenu.add('安装到系统码表',function(id){ 
@@ -186,7 +189,7 @@ winform.listbox.wndproc = function(hwnd,message,wParam,lParam){
 					}
 	
 					winform.editLex.busy(true,"正在加载码表数据，可能需要数分钟..."); 
-					var lexPath = selIndex > 1 ? app.lexManager.getPathByIndex(selIndex-1) : null;
+					var lexPath = selIndex > 1 ? app.lexContents.getPathByIndex(selIndex-1) : null;
 						
 					thread.invoke( 
 						function(winform,lexPath){
@@ -214,7 +217,7 @@ winform.listbox.wndproc = function(hwnd,message,wParam,lParam){
 					
 					winform.lbTip.busy(true,"正在导出数据") 
 					
-					var wubiLex = wubi.lexFile(app.lexManager.getPathByIndex(selIndex-1));
+					var wubiLex = wubi.lexFile(app.lexContents.getPathByIndex(selIndex-1));
 					wubiLex.saveTxt(outputPath);
 					
 					winform.lbTip.busy(false,"已完成");
@@ -225,7 +228,7 @@ winform.listbox.wndproc = function(hwnd,message,wParam,lParam){
 						
 						var csvPath = fsys.dlg.save("*.csv|*.csv","保存编辑器文本到 CSV(UTF-8) 文件",,winform)
 						if(csvPath){ 
-							var lexPath = app.lexManager.getPathByIndex(selIndex-1);
+							var lexPath = app.lexContents.getPathByIndex(selIndex-1);
 							
 							thread.invoke( 
 								function(winform,csvPath,lexPath){
@@ -252,7 +255,7 @@ winform.listbox.wndproc = function(hwnd,message,wParam,lParam){
 						
 						var jsonPath = fsys.dlg.save("*.json|*.json","保存编辑器文本到 JSON 文件",,winform)
 						if(jsonPath){ 
-							var lexPath = app.lexManager.getPathByIndex(selIndex-1);
+							var lexPath = app.lexContents.getPathByIndex(selIndex-1);
 							
 							thread.invoke( 
 								function(winform,jsonPath,lexPath){
@@ -282,7 +285,7 @@ winform.listbox.wndproc = function(hwnd,message,wParam,lParam){
 					}
 					
 					winform.lbTip.busy(true,"正在导出压缩码表")
-					var lexPath = app.lexManager.getPathByIndex(selIndex-1);
+					var lexPath = app.lexContents.getPathByIndex(selIndex-1);
 					if(lexPath){
 						sevenZip.lzma.encodeFile(lexPath,outputPath); 
 					} 
@@ -293,7 +296,7 @@ winform.listbox.wndproc = function(hwnd,message,wParam,lParam){
 
 				winform.popmenu.add('浏览码表文件...',function(id){ 
 					import process;
-					var lexPath = app.lexManager.getPathByIndex(selIndex-1);
+					var lexPath = app.lexContents.getPathByIndex(selIndex-1);
 					if(lexPath){ 
 						process.exploreSelect(lexPath)
 					}
@@ -307,50 +310,22 @@ winform.listbox.wndproc = function(hwnd,message,wParam,lParam){
 						return;
 					}
 					
-					app.lexManager.clear();
+					app.lexContents.clear();
 					winform.listbox.reloadLexList();
 				} ) 
 				
 				winform.popmenu.add('重置为默认列表',function(id){
-					if(!winform.msgAsk('是否重置当前列表?\n点击确定将清空所有添加或下载的码表，\n并加载默认列表。')){
+					if(
+						!app.lexContents.isEmpty()
+						and !winform.msgAsk('是否重置当前列表?\n点击确定将清空所有添加或下载的码表，\n并加载默认列表。')){
 						return;
 					}
 					
-					app.lexManager.clear();
-					app.lexManager.loadDefault();
+					app.lexContents.clear();
+					app.lexContents.loadDefault();
 					winform.listbox.reloadLexList();
 				} ) 
-				winform.popmenu.add();
 				
-				winform.popmenu.add('添加本地码表文件',function(id){
-					winform.btnAddFile.oncommand();
-				} ) 
-				
-				winform.popmenu.add('添加网络码表',function(id){
-					var inputBox = win.inputBox(winform)
-					inputBox.text = "wubiLex - 添加码表网络地址"
-					inputBox.info.text = "请指定下载码表的网址(支持 *.lex 或 *.lex.lzma格式 )"
-					inputBox.input.text = "http://wubi.aardio.com/download/lex/ChsWubi98.lex.lzma";
-					
-					var lexUrl  = inputBox.doModal()
-					if(!#lexUrl){
-						return;
-					} 
-					app.lexManager.addFile(winform,lexUrl);
-				} ) 
-				
-				winform.popmenu.add();
-				
-				var lexMenu = win.ui.popmenu(winform); ;
-				var names,files = app.lexManager.getDefault();
-				for(i=1;#names;1){
-					lexMenu.add(names[i],function(id){
-						app.lexManager.addFile(winform,files[names[i]],names[i]);
-					});
-				}
-				
-				winform.popmenu.add("添加码表",lexMenu);
-					
 				winform.popmenu.popup(x,y,true)
 			}
 			
@@ -400,12 +375,11 @@ subscribe("wubi.system.lex.changed",function(...){
 winform.editLex.limit = 0;
 winform.editLex.text =/*
 可拖拽码表文件到当前窗口（不是编辑框）。
-可添加二进制码表（*.lex）或文本格式码表（*.txt）
-注意：z键编码词条必须移入短语词库（右键菜单里可自动分离）
+可添加二进制码表（*.lex）或文本格式码表（*.txt,*.yaml）
+文本格式码表支持 UTF-8,UNICODE(UTF-16) 等各种编码。
 
-文本格式码表支持 UTF-8,UNICODE(UTF-16) 等各种编码，
 码表每行一个编码，按键(小写字母)与输入文本间用空格或制表符分开。
-下面的写法都可以自动识别(不符合格式要求的行都会自动忽略)：
+下面的写法都可以自动识别(不符合格式要求的行、或以#开始的行都会自动忽略)：
 ------------------------------------------------------------
 duyr	码前词后
 gdgt	码前词后 一码一行
@@ -478,7 +452,7 @@ winform.ddChar1.oncommand = function(){
 
 winform.ddChar2.oncommand = function(){
 	if(!#winform.editLex.text){
-		winform.msgErr.err("要转换的码表内容不能为空!")
+		winform.msgErr("要转换的码表内容不能为空!")
 		return;
 	}
 			
@@ -622,7 +596,7 @@ var createMenuItems = function(){
 	return {
 		{ /*---分隔线---*/ };
 		{ winform.editLex.canCopy()?
-			("使用" + (winform.listbox.selIndex>1 ? "选定码表" : "系统码表") + "造词") :"造词( 请选择词组,多个用空格分开 )";
+			("使用" + (winform.listbox.selIndex>1 ? "选定码表" : "系统码表") + "造词") :"造词( 请选择词组,多个用空格或换行分开 )";
 			function(id){
 				var lexPath,lexName;
 				var selIndex = winform.listbox.selIndex;
@@ -646,13 +620,32 @@ var createMenuItems = function(){
 						var result = {}
 						var selText = winform.editLex.selText;
 						var push = ..table.push;
-						for txt in string.gmatch(selText,":+") { 
-							
-							var code = lexFile.combineCode(txt);
-							if(code){
-								push(result,code + '\t' + txt);
+						
+						var imeVer,formation = lexFile.getVersion();
+						if(imeVer=="zhengma"){
+							if(!formation){
+								winform.msgErr("郑码造词必须选定专用的构词码表")
+								winform.editLex.busy(false,"郑码造词必须选定专用的构词码表");
+								return;
 							}
-						}
+							
+							for txt in string.gmatch(selText,":+") { 
+								
+								var code = lexFile.combineCodeZhengma(txt);
+								if(code){
+									push(result,code + '\t' + txt);
+								}
+							} 
+						} 
+						else {
+							for txt in string.gmatch(selText,":+") { 
+								
+								var code = lexFile.combineCode(txt);
+								if(code){
+									push(result,code + '\t' + txt);
+								}
+							}
+						} 
 						
 						result = ..string.join(result,'\r\n');
 						
@@ -683,7 +676,7 @@ var createMenuItems = function(){
 						},winform
 					)	 
 				}
-			} 
+			}  
 			{ "编码在前 / 词组在后 / 一码一行";
 				function(id){  
 					thread.invoke( 
@@ -719,7 +712,7 @@ var createMenuItems = function(){
 						},winform
 					)	 
 				}
-			}; 
+			};  
 			{ "词组在前 / 编码在后 / 一行多码";
 				function(id){
 					thread.invoke( 
@@ -738,10 +731,28 @@ var createMenuItems = function(){
 					)	 
 				}
 			};
+			{ "词组在前 / 编码在后 / 权重";
+				function(id){  
+					thread.invoke( 
+						function(winform){
+							winform.editLex.busy(true,"正在转换格式为:词前码后");
+							
+							import wubi.lexFile;
+							var wubiLex = wubi.lexFile("");
+							wubiLex.addText(winform.editLex.text);
+							winform.editLex.text = wubiLex.tostring(true,false,true);
+							
+							var statistics = wubiLex.statistics(); 
+							winform.editLex.busy(false
+								,string.format("总编码数：%d 重码数：%d",statistics.totalTxt,statistics.coincidentTxt ) )
+						},winform
+					)	 
+				}
+			}; 
 		}}
 		{ /*---分隔线---*/ };
-		{ "提取短语";{  
-			{ "提取系统短语已占用编码";
+		{ "分离短语";{  
+			{ "分离系统短语已占用编码";
 				function(id){  
 					thread.invoke( 
 						function(winform){
@@ -751,7 +762,7 @@ var createMenuItems = function(){
 							var wubiLex = wubi.lexFile("");
 							wubiLex.addText(winform.editLex.text); 
 							
-							var phraseText = wubiLex.removePhrase();
+							var phraseText = wubiLex.removeFromSystemPhrase();
 							winform.editLex.text = wubiLex.tostring(true);  
 							
 							var statistics = wubiLex.statistics(); 
@@ -770,11 +781,11 @@ var createMenuItems = function(){
 					)	 
 				}
 			}
-			{ "分离z键编码的词条到短语词库";
+			{ "分离z键编码、键名非常用单字到短语词库";
 				function(id){  
 					thread.invoke( 
 						function(winform){
-							winform.editLex.busy(true,"正在查找z键编码词条");
+							winform.editLex.busy(true,"正在查找z键编码、非常用单字占用键名编码的词条");
 							
 							import wubi.lexFile;
 							var wubiLex = wubi.lexFile("");
@@ -787,39 +798,11 @@ var createMenuItems = function(){
 								,string.format("总编码数：%d 重码数：%d",statistics.totalTxt,statistics.coincidentTxt ) )
 								
 							if(!#phraseText){
-								winform.msgbox("当前码表未包含z键编码的词条")	
+								winform.msgbox("当前码表未包含z键编码、键名非单字优先编码")	
 							}
 							else {
 								import fsys.dlg;
 								var path = fsys.dlg.save("*.phrase.txt|*.phrase.txt||","保存短语到文本文件",,winform)
-								if(path)string.save(path,phraseText)
-							}
-						},winform
-					)	 
-				}
-			}
-			{ "提取键名单字到短语（避免键名字优先）";
-				function(id){
-					thread.invoke( 
-						function(winform){
-							winform.editLex.busy(true,"提取键名单字到短语");
-							
-							import wubi.lexFile;
-							var wubiLex = wubi.lexFile("");
-							wubiLex.addText(winform.editLex.text);
-							var phraseText = wubiLex.removeKeyNamePhrase();
-							winform.editLex.text = wubiLex.tostring(true);
-							
-							var statistics = wubiLex.statistics(); 
-							winform.editLex.busy(false
-								,string.format("总编码数：%d 重码数：%d",statistics.totalTxt,statistics.coincidentTxt ) )
-								
-							if(!#phraseText){
-								winform.msgbox("当前码表未包含键名单字")	
-							}
-							else {
-								import fsys.dlg;
-								var path = fsys.dlg.save("*.phrase.txt|*.phrase.txt||","分离键名单字到短语词库",,winform)
 								if(path)string.save(path,phraseText)
 							}
 						},winform
@@ -1073,10 +1056,10 @@ menuSave.onOk = function(strip){
 	strip.oncommand();
 }
 
-import app.lexManager;
+import app.lexContents;
 winform.btnSave.oncommand = function(id,event){
 	if(!#winform.editLex.text){
-		return winform.msgErr("要保存的码表内容不能为空!")
+		return winform.msgErr("要保存的码表内容不能为空!");
 	}
 	
 	menuSave.popup(true,winform.btnSave,"up");
@@ -1093,7 +1076,7 @@ winform.ddSaveToCurrent.oncommand = function(id,event){
     	return winform.ddSaveToSystem.oncommand();
     }
     
-	var lexPath = app.lexManager.getPathByIndex(selIndex-1)
+	var lexPath = app.lexContents.getPathByIndex(selIndex-1)
 	if(!lexPath) {
 		winform.msgErr("错误的码表文件");
     	return;	
@@ -1104,6 +1087,8 @@ winform.ddSaveToCurrent.oncommand = function(id,event){
 			import wubi.lexFile; 
 			winform.btnSave.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
 			winform.editLex.busy(true,"正在保存码表，请稍候..")
+			winform.listbox.disabled = true;
+			
 			var wubiLex = wubi.lexFile("") 
 			wubiLex.addText(winform.editLex.text);
 			wubiLex.saveLex(lexPath)
@@ -1111,12 +1096,13 @@ winform.ddSaveToCurrent.oncommand = function(id,event){
 			winform.editLex.modified = false;
 			winform.editLex.busy(false,"已完成")
 			winform.btnSave.disabledText = null;	
+			winform.listbox.disabled = false;
 		},winform,lexPath
 	)
 }
 
 winform.ddSaveAs.oncommand = function(id,event){
-	var lexPath = app.lexManager.newFile(winform);
+	var lexPath = app.lexContents.newFile(winform);
 	if(!lexPath) return;
 	
 	thread.invoke( 
@@ -1124,6 +1110,7 @@ winform.ddSaveAs.oncommand = function(id,event){
 			import wubi.lexFile; 
 			winform.btnSave.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
 			winform.editLex.busy(true,"正在保存码表，请稍候..")
+			winform.listbox.disabled = true;
 			
 			var wubiLex = wubi.lexFile("") 
 			wubiLex.addText(winform.editLex.text);
@@ -1134,7 +1121,8 @@ winform.ddSaveAs.oncommand = function(id,event){
 			winform.listbox.selIndex = winform.listbox.count;
 			
 			winform.editLex.busy(false,"已完成")
-			winform.btnSave.disabledText = null;	
+			winform.btnSave.disabledText = null;
+			winform.listbox.disabled = false;	
 		},winform,lexPath
 	)
 }
@@ -1143,8 +1131,9 @@ winform.ddSaveToSystem.oncommand = function(id,event){
 		
 	winform.editLex.setFocus(); 	
 	winform.btnSave.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'};				
-	winform.btnCopyToSystem.disabled = true
+	winform.btnCopyToSystem.disabled = true;
 	winform.editLex.busy(true,"安装需要几分钟，请耐心等待...")
+	winform.listbox.disabled = true;
 		
 	var ok,err = win.invoke(
 		function(lexText,winform){
@@ -1159,10 +1148,55 @@ winform.ddSaveToSystem.oncommand = function(id,event){
 	winform.listbox.selIndex = 1;
 	winform.btnCopyToSystem.disable = false;
 	winform.btnSave.disabledText = null;
+	winform.listbox.disabled = false;
 	
 	if(ok){
 		winform.editLex.modified = false;
 	}
+}
+
+
+import style;
+winform.btnAddFile.oncommand = function(id,event){
+	var popmenu = win.ui.popmenu(winform);
+	popmenu.add('添加本地码表文件',function(id){
+		var inputPath = fsys.dlg.open("码表(*.lex;*.txt,*.yaml;*.csv,*.json)|*.lex;*.txt;*.yaml;*.csv;*.json||",,,winform)
+		if(inputPath){
+			app.lexContents.addFile(winform,inputPath);
+		}
+	} ) 
+	
+	popmenu.add('添加网络码表',function(id){
+		var inputBox = win.inputBox(winform)
+		inputBox.text = "wubiLex - 添加码表网络地址"
+		inputBox.info.text = "请指定下载码表的网址(支持 *.lex 或 *.lex.lzma格式 )"
+		inputBox.input.text = "http://wubi.aardio.com/download/lex/ChsWubi98.lex.lzma";
+		
+		var lexUrl  = inputBox.doModal()
+		if(!#lexUrl){
+			return;
+		} 
+		app.lexContents.addFile(winform,lexUrl);
+	} ) 
+	
+	popmenu.add();
+	 
+	var lexTable = app.lexNetContents.getTable();
+	for i,lexConfig in table.eachIndex(lexTable){
+		var menu = win.ui.popmenu(winform);
+		for(i=1;#lexConfig.items;1){
+			var lexItem  = lexConfig.items[i];
+			menu.add(lexItem.name,function(id){
+				app.lexContents.addFile(winform,lexItem.url,lexItem.name);
+			});
+		}
+		popmenu.add(lexConfig.name,menu);
+	}
+
+	var x,y,cx,cy = winform.btnAddFile.getPos()
+	popmenu.popup(x,y+cy)
+	
+	app.lexNetContents.update();
 }
 
 winform.show() 

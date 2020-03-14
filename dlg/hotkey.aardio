@@ -3,6 +3,8 @@ import fsys.lnk;
 import process;
 import process.cache;
 import wubi.candidateWindow;
+import win.dlg.message;
+import key.hotkey;
 import winex;
 import fonts.fontAwesome;
 import win.ui;
@@ -20,8 +22,8 @@ lbTip={cls="static";left=39;top=523;right=594;bottom=574;db=1;dl=1;dr=1;transpar
 /*}}*/
 
 import style;
-winform.chkDecimalPoint.skin(style.checkBox)
-winform.chkEnableHotkey.skin(style.checkBox)
+winform.chkDecimalPoint.skin(style.checkBox);
+winform.chkEnableHotkey.skin(style.checkBox);
 
 import config
 import wubi.hotkey;
@@ -44,11 +46,8 @@ winform.chkEnableHotkey.oncommand = function(id,event){
 	winform.chkDecimalPoint.disabled = !winform.chkEnableHotkey.checked
 }
 
-import key.hotkey;
-winform.btnSave.skin(style.primaryButton)
 
-import win.dlg.message;
-import winex;
+winform.btnSave.skin(style.primaryButton)
 var hotkeyMgr;
 winform.btnSave.oncommand = function(id,event){
     if(!winform.chkEnableHotkey.checked){
