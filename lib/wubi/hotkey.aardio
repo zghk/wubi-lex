@@ -1,0 +1,59 @@
+﻿//hotkey 默认热键
+namespace wubi.hotkey;
+
+default = /*******
+["~calc"] = function(){
+	process.execute("calc.exe")
+}
+["~word"] = function(){
+	var word = com.CreateObject("Word.Application")
+	if(word)word.Visible = true; 
+}
+["~time"] = function(){ 
+	var str = time(,"%Y年%m月%d日 %H时%M分%S秒","chs")
+	winex.say(tostring(str));
+}; 
+["~hi"] = function(){
+	key.send("hello") //可支持UWP应用
+}
+["~date"] = function(){ 
+	var nums = { ["0"]="〇";["1"]="一";["2"]="二";["3"]="三";["4"]="四";["5"]="五";["6"]="六";["7"]="七";["8"]="八";["9"]="九";}
+	var tm = time()
+	var year = string.replace(tm.year,"\d",nums);
+	var day = string.replace(tm.day,"\d",nums);
+	var month = string.replace(tm.month,"\d",nums);  
+	day = string.replace(day,"(:)(:)","\1十\2"); 
+	month = string.replace(month,"(:)(:)","十\2"); 
+	day = string.replace(day,"〇",""); 
+	month = string.replace(month,"〇",""); 
+	day = string.replace(day,"一十","十");
+	winex.say(year+"年"+month+"月"+day+"日");
+}; 
+["Ctrl+Q,Q"] = function(){
+	import process 
+	import fsys.lnk; 
+	qqpath  = fsys.lnk.search( {"qq.exe";"QQScLauncher.exe";"QQProtect.exe"} )   
+	process.execute( qqpath )
+};
+/*
+//取消次选键，放到注释外面生效
+[","] = function(){
+	if( wubi.candidateWindow.isVisible() ){
+		key.send(" ,") 
+	} 
+	else key.send(",")
+};
+
+配置代码使用 aardio 编程语言（ 开发环境仅6.5MB 官网：http://www.aardio.com ）
+中括号里是按键名字串，等号的后面指定输入文本或者执行输入的函数。
+如果第一个按键是控制键并紧跟一个加号，后面所有键名都要使用逗号分开，例如"Ctrl+Q,Q"。
+
+超级热键检测规则如下：
+1、如果首个按下的键不是控制键，则不需要同时按住多个键
+2、如果首次按住控制键不放开，则直到放开该键才完成超级热键
+控制键指的是CTRL,ALT,SHIFT,WIN键
+
+注意热键 ~hi 在按第一个~时不要按Shift键。
+*/
+
+*******/
