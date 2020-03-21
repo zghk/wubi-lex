@@ -3,7 +3,7 @@ import win.ui;
 /*DSG{{*/
 var winform = win.form(text="五笔码表管理﻿工具";right=1040;bottom=602;bgcolor=16777215)
 winform.add(
-editInput={cls="plus";left=287;top=146;right=712;bottom=181;border={bottom=1;color=-16744448};dl=1;dr=1;dt=1;font=LOGFONT(h=-16);tabstop=1;textPadding={top=6;bottom=1};z=8};
+editInput={cls="plus";left=287;top=146;right=712;bottom=181;border={bottom=1;color=-16744448};dl=1;dr=1;dt=1;editable="edit";font=LOGFONT(h=-16);tabstop=1;textPadding={top=6;bottom=1};z=8};
 etymonImage={cls="plus";left=148;top=208;right=265;bottom=327;db=1;dl=1;dr=0.75;dt=1;repeat="scale";z=41};
 hotkey={cls="hotkey";left=647;top=573;right=787;bottom=593;clip=1;db=1;dr=1;edge=1;hide=1;z=1};
 inkEdit={cls="atlax";text="InkEd.InkEdit";left=743;top=179;right=999;bottom=446;dr=1;dt=1;z=14};
@@ -284,8 +284,6 @@ var searchSpelling = win.debounce(function(str){
 	
 	
 },100)
-
-winform.editInput.editable = "edit";
 
 import style;
 import win.ui.tabs;

@@ -86,8 +86,8 @@ namespace tsfUtil{
 		var out,err = ..fsys.acl.icacls(filePath,"/setowner","NT SERVICE\TrustedInstaller");
 		return out,err;
 	};
-
-	var intallLex = function(srcLexPath,srcLexText,winform){
+ 
+	var intallLex = function(srcLexPath,srcLexText,appendMode,winform){
 		var dlg = ..win.dlg.message(winform)
 		var lexFile;
 		if(srcLexText){
@@ -117,6 +117,10 @@ namespace tsfUtil{
 			}
 			phraseText = lexFile.removePhrase();
 		}
+		
+		if(appendMode){
+			lexFile.addFile( ..wubi.lexFile.path() )
+		}
 
 		return aclGrant(..fsys.getWinDir("\InputMethod\CHS\ChsWubiNew.lex"),
 			function(chsWubiNewPath){
@@ -139,7 +143,7 @@ namespace tsfUtil{
 								var savePath = chsWubiNewPath : chsWubiPath;
 								if(savePath){
 									var lexData;
-									if(phraseText||srcLexText){
+									if(phraseText||srcLexText||appendMode){
 										lexFile.saveLex(savePath);
 										lexData =..string.load(chsWubiNewPath);  
 									}
@@ -180,12 +184,12 @@ namespace tsfUtil{
 		);
 	}
 	
-	intallLexFile = function(srcPath,winform){
-		return intallLex(srcPath,,winform);
+	intallLexFile = function(srcPath,appendMode,winform){
+		return intallLex(srcPath,,appendMode,winform);
 	};
 	
-	intallLexText = function(srcText,winform){
-		return intallLex("",srcText,winform);
+	intallLexText = function(srcText,appendMode,winform){
+		return intallLex("",srcText,appendMode,winform);
 	};
 	
 	intallPhrase = function(phraseText,winform){
@@ -204,8 +208,8 @@ namespace tsfUtil{
 }
 
 /**intellisense(tsfUtil)
-intallLexFile(.(srcPath,winform) = 复制srcPath指定的lex码表到系统码表
-intallLexText(.(srcText,winform) = 解析srcText指定的码表文本并安装到系统码表
+intallLexFile(.(srcPath,appendMode,winform) = 复制srcPath指定的lex码表到系统码表
+intallLexText(.(srcText,appendMode,winform) = 解析srcText指定的码表文本并安装到系统码表
 intallPhrase(.(phraseText,winform) = 安装短语
 reset(proc) = @.reset(\n	function(){\n			\n	}\n)	
 deactivate() = deactivate

@@ -9,7 +9,7 @@ import wubi.phrase;
 namespace wubi;
 
 class lexFile{
-	ctor( filePath ){{
+	ctor( filePath ){
 		if(!filePath){
 			filePath = self.path();
 			if(!filePath){
@@ -17,13 +17,11 @@ class lexFile{
 			}
 		}
 		
-		var inputCodes = {};
-		var outputMap = {}; 
-		this.inputCodes = inputCodes;
-		this.outputMap = outputMap; 
-			
+		this.inputCodes =  {};
+		this.outputMap =  {}; 
+		this.codeWeight  = {}; 
 		this.clear = function(){
-			..table.clear(inputCodes)
+			..table.clear(this.inputCodes)
 			..table.clear(outputMap)
 		};
 		
@@ -32,10 +30,13 @@ class lexFile{
 		var push = ..table.push;
 		var replace = ..string.replace;
 		this.addText = function(bin){
+			var outputMap = this.outputMap;
+			var inputCodes = this.inputCodes;
+			
 			var splitEx = ..string.splitEx;
 			
 			//清理yaml
-			var bin,yamlCount = ..string.replace(bin,"!\N---\s\n.+!\N\.\.\.\s*\N?!","");
+			var bin,yamlCount = ..string.replace(bin,"!\N---\s\n.+!\N\.\.\.\s*\N?!",""); 
 			
 			//清理注释
 			var bin = ..string.replace(bin,"!\N#\t?!\N+\n","");
@@ -76,8 +77,31 @@ class lexFile{
 			}
 			  
 			var code,words,weight;
-			var codeWeight = {};
+			var codeWeight = {}; 
+            var descWeightMin = 0xFFFFFFFF;
 			for line in ..string.lines(bin) {
+				var code,words,weight = match(line,"^([a-z]{1,4})\s+(\S*)\s+(\d+)\s*$")
+				if(words && code && (#weight) ){ 
+					weight = tonumber(weight);
+					
+					words = replace(words,"@%20",' ')
+					words = replace(words,"@%09",'\t') 
+					words = replace(words,"@%0A",'\n')
+						
+					if(!outputMap[code]){
+						outputMap[code] = {words};
+						push(inputCodes,code);
+						
+						codeWeight[code] = {[words]=weight};
+					}
+					else {
+						push(outputMap[code],words); 
+						codeWeight[code][words] = weight;
+					};
+					
+					continue;
+				};
+				
 				var code,words = match(line,"^([a-z]{1,4})\s+(\S.*)\s*")
 				if( !(code && words) ){ 
 					words,code,weight = match(line,"^(\S+)\s+([a-z]{1,4})\s+(\d+)\s*[a-z]*\s*$");
@@ -85,17 +109,19 @@ class lexFile{
 						if(!outputMap[code]){
 							outputMap[code] = {};
 							push(inputCodes,code);
-							
 							codeWeight[code] = {};
-							codeWeight[0] = "sort";
 						}
 						
 						words = replace(words,"@%20",' ')
 						words = replace(words,"@%09",'\t') 
-						wordss = replace(words,"@%0A",'\n')
+						words = replace(words,"@%0A",'\n')
 						push(outputMap[code],words); 
-				
-						codeWeight[code][words] = tonumber(weight);
+						
+						weight = 0xFFFF-(tonumber(weight))
+						codeWeight[code][words] = weight;
+						if( weight<descWeightMin ){
+							descWeightMin = weight;
+						}
 						continue;
 					}
 					if(codeWeight[0]){
@@ -144,21 +170,25 @@ class lexFile{
 				} 
             } 				
             
-            if(codeWeight[0]=="sort"){
-                var sort = ..table.sort;
-                for(code,words in outputMap){
-                	var weight = codeWeight[code];
-                	if(!weight){  continue; }
-                	sort(words,lambda(b) (weight[owner]:0) > (weight[b]:0) ) 
-                } 
+            this.codeWeight = codeWeight;
+            
+            if(descWeightMin != 0xFFFFFFFF){
+            	if(descWeightMin>5000){
+            		for(code,weight in this.codeWeight){ 
+            			for(t,w in weight){ 
+            				weight[t] = w-descWeightMin+5000;
+            			} 
+            		} 
+            	}
             }
             
             //清理极点标记
             if(jidian){
+                this.codeWeight = {};
             	var remove = ..table.remove;
             	var right = ..string.right;
-				for(i=#this.inputCodes;1;-1){
-					var code = this.inputCodes[i]  
+				for(i=#inputCodes;1;-1){
+					var code = inputCodes[i]  
 					var texts = this.outputMap[code]
 					for(i=#texts;1;-1){
 						var txt = texts[i];
@@ -171,23 +201,24 @@ class lexFile{
 					}
 					
 					if(!#texts){
-						this.outputMap[code] = null;
-						remove(this.inputCodes,i);
+						outputMap[code] = null;
+						remove(inputCodes,i);
 					}
 				};
             }
 		}
 		
-		this.path = filePath;
-		if( #filePath && ..io.exist(filePath) ){
-			var file = ..io.open(filePath,"rb");
-			if(!file){
-				return null,"打开文件失败";
-			}
-			
-			var fromUnicode = ..string.fromUnicode;
-			if(file.read(#"imscwubi")==="imscwubi"){ 
-				var header = file.read({ 
+		
+		this.addFile = function(filePath){
+			if( #filePath && ..io.exist(filePath) ){ 
+				var file = ..io.open(filePath,"rb");
+				if(!file){
+					return null,"打开文件失败";
+				}
+				
+				var fromUnicode = ..string.fromUnicode;
+				if(file.read(#"imscwubi")==="imscwubi"){ 
+					var header = file.read({ 
 						WORD majorVersion = 1;
 						WORD MinorVersion = 1; 
 						int indexOffset = 0x40;
@@ -195,40 +226,57 @@ class lexFile{
 							int fileSize;
 					})
 					if(!header) return null;
-					
 					file.seek("set",header.tableOffset);
+					
+					var outputMap = this.outputMap;
+					var inputCodes = this.inputCodes;
+					
+					var codeWeight = {};
 					while(file.seek()<header.fileSize){
 						var record = file.read({
-						WORD length;
-						WORD index;
-						WORD codeLength;
-						WORD code[4]; 
-					})
-					if(!record) return null;
+							WORD length;
+							WORD weight;
+							WORD codeLength;
+							WORD code[4]; 
+						})
+						if(!record) return null;
+					
+						var len =  (record.length-16); 
+						var word = file.readUnicode(len/2)
+						var code = ..string.left( record.code,record.codeLength); 
+					
+						if(!outputMap[code]){
+							outputMap[code] = {word}
+							push(inputCodes,code);
+						}
+						else {
+							push(outputMap[code],word);
+						}
+						
+						if(!codeWeight[code]){
+							codeWeight[code] = {[word]=record.weight} 
+						}
+						else {
+							codeWeight[code][word] = record.weight;
+						} 
+						
+						file.seek("cur",2);
+					} 
+					this.codeWeight = codeWeight;
+				}
+				else { 
+					file.close();
+					this.addText(..fsys.codepage.load(filePath)); 
+				}	
 				
-					var len =  (record.length-16); 
-					var word = file.readUnicode(len/2)
-					var code = ..string.left( record.code,record.codeLength);
-				
-					if(!outputMap[code]){
-						outputMap[code] = {word}
-						push(inputCodes,code);
-					}
-					else {
-						push(outputMap[code],word);
-					}
-					file.seek("cur",2)
-				} 
-			
-				file.close();
+				return true;
 			}
-			else { 
-				file.close();
-				this.addText(..fsys.codepage.load(filePath)); 
-			}	
 		}
+		this.addFile(filePath);
+		this.path = filePath;
 
-	}};  
+		
+	};  
 	add = function(code,word){
 		if( code && word ){ 
 			if(!this.outputMap[code]){
@@ -263,26 +311,44 @@ class lexFile{
 		var alphaBase = 'a'# - 1;    
 		var prevAlpha = alphaBase;  
 		
-		..table.sort(this.inputCodes); 
-		var toUnicode = ..string.toUnicode;
-		for(i=1;#this.inputCodes;1){
-			var code = this.inputCodes[i] 
+		var inputCodes = this.inputCodes;
+		..table.sort(inputCodes);
+		
+		var toUnicode = ..string.toUnicode; 
+		
+		var outputMap = this.outputMap;
+		var codeWeight = this.codeWeight;
+		var word,weight;
+		for(i=1;#inputCodes;1){
+			var code = inputCodes[i] 
 			while (prevAlpha < code[1])  {
 				prevAlpha++;
 				alphaIndex[prevAlpha - alphaBase] = file.seek() - 0xA8;
 			}
 			
-			var words = this.outputMap[code]
-			code = toUnicode(code);
+			var wordWeight = codeWeight[code];
+			var words = outputMap[code]
+			code = toUnicode(code); 
+			
+			weight = 0;
 			for(i=1;#words;1){  
-				if(words[i]==words[i-1])continue;
-				var str = toUnicode(words[i])
+				word = words[i]
+				//if(word==words[i-1])continue;
+				 
+				if(wordWeight[[word]]){
+					weight = wordWeight[word];
+				}
+				else {
+					weight = weight + 1;
+				} 
+				
+				word = toUnicode(word);
 				file.write({
-					WORD length = 16 + #str;
-					WORD index = i;
+					WORD length = 16 + #word;
+					WORD weight = weight;
 					WORD codeLength = #code/2;
 					WORD code[4] = code;
-					BYTE text[] = str;
+					BYTE text[] = word;
 					BYTE ends[2]; 
 				})  
 			}
@@ -303,15 +369,13 @@ class lexFile{
 		
 		return true;	
 	}
-	saveTxt = function(filePath,reverse){
-		..table.sort(this.inputCodes);
-			
+	saveTxt = function(filePath,reverse){ 
 		var file = filePath ? ..io.open(filePath,"w+,ccs=UTF-16LE")
 		if(!file){
 			return null,"打开文件失败"
 		}
 		
-		..table.sort(this.inputCodes);
+		this.sort();
 		var toUnicode = ..string.toUnicode;
 		for(i=1;#this.inputCodes;1){
 			var code = this.inputCodes[i]  
@@ -341,65 +405,155 @@ class lexFile{
 		} 
 	}
 	filter = function(f){
-		..table.sort(this.inputCodes);
-		
+		var push = ..table.push;
 		var remove = ..table.remove;
-		for(i=#this.inputCodes;1;-1){
-			var code = this.inputCodes[i]  
-			var texts = this.outputMap[code]
+		var newInputCodes = {}
+		var inputCodes = this.inputCodes;
+		var outputMap = this.outputMap;
+		for(i=1;#inputCodes;1){
+			var code = inputCodes[i]  
+			var texts = outputMap[code]
 			for(i=#texts;1;-1){
 				var txt = texts[i];
-				if(!f(txt,code)){
-					remove(texts,i);
-				}  
+				if(!f(txt,code)){remove(texts,i);}  
 			}
 			
 			if(!#texts){
-				this.outputMap[code] = null;
-				remove(this.inputCodes,i);
+				outputMap[code] = null;
 			}
-		}; 	
+			else {
+				push(newInputCodes,code);
+			} 
+		}; 
+		
+		this.inputCodes = newInputCodes;	
 	}
 	sort = function(f){
-		..table.sort(this.inputCodes);
+		var inputCodes = this.inputCodes;
+		..table.sort(inputCodes);
+          
+        var codeWeight = this.codeWeight;
+        var sort = ..table.sort;
+        for(code,words in outputMap){
+            var weight = codeWeight[code];
+            if(!weight){  continue; }
+            
+			var c,w;
+			if(!weight[ words[1] ]) weight[ words[1] ] = 1;
+			for(i=2;#words;1){
+				c = words[i]
+				w = weight[c]
+				if(!w){
+					weight[c] = weight[ words[i-1] ] + 1;
+				}
+			} 
+			
+            sort(words,lambda(b) (weight[owner]) < (weight[b]) ) 
+        }
+		
+		if(!f) return f;  
 		
 		var remove = ..table.remove;
 		for(i=#this.inputCodes;1;-1){
 			var code = this.inputCodes[i]  
-			var texts = this.outputMap[code]
+			var words = this.outputMap[code]
 			
-			var newTexts = f(code,texts)
+			var newWords = f(code,words)
 			
-			this.outputMap[code] = newTexts;
-			if(!#newTexts){
-				this.outputMap[code] = null;
-				remove(this.inputCodes,i);
+			this.outputMap[code] = newWords;
+			if(!#newWords){
+				if(newWords){
+					this.outputMap[code] = null;
+					remove(this.inputCodes,i);	
+				}
+			}
+			else {
+				var weight = codeWeight[code];
+				if(weight){
+					var w;
+					if(!weight[ newWords[1] ]) weight[ newWords[1] ] = 1;
+					for(i=2;#newWords;1){
+						w = weight[ newWords[i] ]
+						if(!w || (w<weight[ newWords[i-1] ]) ){
+						 	weight[ newWords[i] ] = weight[ newWords[i-1] ] + 1;
+						}
+					} 	
+				} 
 			}
 		}; 	
-	}
+	};
+	loadWordWeight  = function(filePath,reorder){
+		var match = ..string.match;
+		var wordWeight = {};
+		for(line in ..io.lines(filePath)){
+			 var word,weight = match(line,"(:+)\s+(\d+)");
+			 if(word && weight){
+			 	wordWeight[word] = tonumber(weight);	
+			 }
+		} 
+		this.wordWeight = wordWeight;
+		
+		var inputCodes = this.inputCodes;
+		var outputMap = this.outputMap;
+		var codeWeight = {};
+		for(i=#inputCodes;1;-1){
+			var code = inputCodes[i]  
+			var words = outputMap[code]
+		
+			var weight = codeWeight[code];
+			if(!weight){
+				weight = {}
+				codeWeight[code] = weight;
+			}
+			
+			if(!reorder){
+				weight[ words[1] ] = wordWeight[words[1]] : 0xF36B;
+				
+				for(i=2;#words;1){
+					w = wordWeight[ words[i] ]
+					if(!w || (w<weight[ words[i-1] ]) ){
+						w = weight[ words[i-1] ] + 1;  
+					}
+					
+					weight[ words[i] ] = w;
+				}	
+			}
+			else {
+				for(i=1;#words;1){
+					weight[ words[i] ] = wordWeight[ words[i] ] : 0xF36B;
+				}	
+			}
+		};
+		this.codeWeight = codeWeight;
+	};
 	unique = function(){
 		var len = ..string.len; 
 		var push = ..table.push;
+		var remove = ..table.remove;
 		
-		this.sort(
-			function(code,texts){
-				var newText = {}
-				var multiCharacterWord;
-				for(i=1;#texts){
-					var txt = texts[i];
-					var l = len(txt);
-					if(l>1){ 
-						if( !multiCharacterWord  ) {
-							push(newText,txt)
-							multiCharacterWord = true;
-						}
-					}  
-					else{ push(newText,txt) }
-				}
-				
-				return newText;		
+		var outputMap = this.outputMap;
+		var inputCodes = this.inputCodes;
+		
+		for(i=#inputCodes;1;1){
+			var code = inputCodes[i]  
+			var words = outputMap[code]
+			
+			var newText = {}
+			var multiCharacterWord;
+			for(i=1;#texts){
+				var txt = texts[i];
+				var l = len(txt);
+				if(l>1){ 
+					if( !multiCharacterWord  ) {
+						push(newText,txt)
+						multiCharacterWord = true;
+					}
+				}  
+				else{ push(newText,txt) }
 			}
-		)	
+			
+			this.outputMap[code] = newWords;
+		}	
 	}
 	simplified = function(){
 		var remove = ..table.remove;
@@ -443,7 +597,7 @@ class lexFile{
 		}; 		
 	}; 
 	getTableData = function(){
-		..table.sort(this.inputCodes);
+		this.sort();
 		
 		var push = ..table.push;
 		var result = {};
@@ -468,8 +622,14 @@ class lexFile{
 		var len = #this.inputCodes;
 		if(len){
 			var ret = 2#00;
-			var code = this.inputCodes[len];
-			if( ..string.indexOf(code,"z") ) ret = 2#01 ;
+			
+			var inputCodes = this.inputCodes;
+			for(i=#inputCodes;1;-1){ 
+				if(inputCodes[i][1]=='z'#){
+					ret = 2#01 ;
+					break;
+				} 
+			}
 			
 			var outputMap = this.outputMap;
 			for(i='a'#;'y'#;1){
@@ -507,6 +667,7 @@ class lexFile{
 		}
 	};
 	removePhrase = function(){
+		var push = ..table.push;
 		var remove = ..table.remove;
 		var indexOf = ..string.indexOf;
 		var replace = ..string.replace; 
@@ -521,11 +682,15 @@ class lexFile{
 			var code = ..string.pack(i,i,i,i); 
 			keyNames[code] = true;
 		} 
-			
-		for(i=#inputCodes;1;-1){
-			code = inputCodes[i] 
+		
+		var newInputCodes = {}	
+		for(i=1;#inputCodes){
+			code = inputCodes[i]
 			if(!indexOf(code,"z")){
-				if( !keyNames[code] ){continue;}
+				if( !keyNames[code] ){
+					push(newInputCodes,code);
+					continue;
+				}
 				
 				texts = outputMap[code];
 				
@@ -549,6 +714,7 @@ class lexFile{
 				} 
 				
 				if(!((gb && ((gb+rare)>4 && (#texts>=9) )) || (!gb && rare))){
+					push(newInputCodes,code);
 					continue;
 				} 
 			}
@@ -559,10 +725,10 @@ class lexFile{
 				strBuilder.append(code+'='+txt+'\r\n'); 
 			}
 		
-			outputMap[code] = null;
-			remove(inputCodes,i);
+			outputMap[code] = null; 
 		};   
-
+		this.inputCodes = newInputCodes;
+		
 		var ret = tostring(strBuilder); 
 		strBuilder.free();
 		return ret;	
@@ -571,27 +737,37 @@ class lexFile{
 		var phraseMap = ..wubi.phrase.loadMapFromSystem();
 		var strBuilder = ..string.builder();
 		var replace = ..string.replace;
+		var push = ..table.push;
+		var outputMap = this.outputMap;
+		var inputCodes = this.inputCodes;
 		
-		this.sort(
-			function(code,texts){
-				if(phraseMap[code]) {
-					for(i=1;#texts;1){
-						var txt = replace(texts[i],'\n',"%0A"); 
-						strBuilder.append(code+'='+txt+'\r\n'); 
-					}
-					return null; 	
+		var newInputCodes = {}
+		for(i=#inputCodes;1;-1){
+			var code = inputCodes[i]  
+			var words = outputMap[code]
+			
+			if(phraseMap[code]) {
+				for(i=1;#words;1){
+					var txt = replace(words[i],'\n',"%0A"); 
+					strBuilder.append(code+'='+txt+'\r\n'); 
 				}
-				return texts;
+				
+				outputMap[code] = null;	 
+			} 
+			else {
+				push(newInputCodes,code);
 			}
-		)
+		} 
+		this.inputCodes = newInputCodes;
 		
 		var ret = tostring(strBuilder); 
 		strBuilder.free();
 		return ret;
 	} 
-	tostring = function(reverse,singleLine,weight){
-		if(!#this.inputCodes){return "";}
-		..table.sort(this.inputCodes);
+	tostring = function(reverse,singleLine,sortWeight){
+		if(!#this.inputCodes){return "";} 
+		if(sortWeight===null){sortWeight=true;}
+		this.sort();
 		
 		var push = ..table.push;
 		var replace = ..string.replace;
@@ -599,13 +775,17 @@ class lexFile{
 		var urlEncode = lambda(c) hex(c,"%");
 		var strBuilder = ..string.builder();
 		
+		var inputCodes = this.inputCodes; 
+		var outputMap = this.outputMap;
+		var codeWeight = this.codeWeight;
+		
 		if(reverse){
 			if(singleLine){
 				var chars = {}
 				var mapCodes ={}
-				for(i=1;#this.inputCodes;1){
-					var code = this.inputCodes[i]  
-					var texts = this.outputMap[code]
+				for(i=1;#inputCodes;1){
+					var code =inputCodes[i]  
+					var texts = outputMap[code]
 					for(j=1;#texts;1){
 						var txt = replace(texts[j],"\s",urlEncode)
 						if(!mapCodes[txt]){
@@ -617,7 +797,7 @@ class lexFile{
 						}
 					}
 				};
-				
+				 
 				for(i=1;#chars;1){
 					var chr = chars[i];
 					var codes = mapCodes[chr];
@@ -626,25 +806,35 @@ class lexFile{
 					for(j=2;#codes;1){
 						if(codes[j]!=codes[j-1])strBuilder.append(' '+ codes[j]);
 					}
+					
 					strBuilder.append('\r\n');
-				}
+				} 
 			}
 			else {
-				if(weight){
+				if(sortWeight){
+					var wordWeight;
 					for(i=1;#this.inputCodes;1){
-						var code = this.inputCodes[i]  
+						var code =inputCodes[i]  
 						var texts = this.outputMap[code]
 						
-						var w = #texts;
+						var weight = 0;
+						wordWeight = codeWeight[code];
 						for(i=1;#texts;1){
-							var txt = replace(texts[i],"\s",urlEncode)
-							strBuilder.append(txt+'\t'+code+'\t'+(w-i)+'\r\n');
+							if(wordWeight && wordWeight[ texts[i] ]){
+								weight = wordWeight[ texts[i] ];
+							}
+							else {
+								weight = weight + 1;
+							}
+						
+							var txt = replace(texts[i],"\s",urlEncode) 
+							strBuilder.append(txt+'\t'+code+'\t'+ (0xFFFF-weight)+'\r\n');
 						}
 					};	
 				}
 				else {
 					for(i=1;#this.inputCodes;1){
-						var code = this.inputCodes[i]  
+						var code =inputCodes[i]  
 						var texts = this.outputMap[code]
 						for(i=1;#texts;1){
 							var txt = replace(texts[i],"\s",urlEncode)
@@ -657,7 +847,7 @@ class lexFile{
 		else {
 			if(singleLine){
 				for(i=1;#this.inputCodes;1){
-					var code = this.inputCodes[i]  
+					var code =inputCodes[i]  
 					var texts = this.outputMap[code]
 					strBuilder.append(code);
 					for(i=1;#texts;1){
@@ -669,21 +859,30 @@ class lexFile{
 				};
 			}
 			else {
-				if(weight){
+				if(sortWeight){
+					var wordWeight;
 					for(i=1;#this.inputCodes;1){
-						var code = this.inputCodes[i]  
-						var texts = this.outputMap[code]
+						var code = inputCodes[i];  
+						var texts = outputMap[code];
+						wordWeight = codeWeight[code];
 						
-						var w = #texts;
+						var weight = 0;
 						for(i=1;#texts;1){
+							if(wordWeight && wordWeight[ texts[i] ]){
+								weight = wordWeight[ texts[i] ];
+							}
+							else {
+								weight = weight + 1;
+							}
+							
 							var txt = replace(texts[i],"\s",urlEncode)
-							strBuilder.append(code+'\t'+txt+'\t'+(w-i)+'\r\n');
+							strBuilder.append(code+'\t'+txt+'\t'+weight+'\r\n');
 						}
 					}; 	
 				}
 				else {
 					for(i=1;#this.inputCodes;1){
-						var code = this.inputCodes[i]  
+						var code =inputCodes[i]  
 						var texts = this.outputMap[code]
 						for(i=1;#texts;1){
 							var txt = replace(texts[i],"\s",urlEncode)
@@ -976,5 +1175,6 @@ hasPhrase() = 是否含z键编码
 removePhrase() =  分离Z键编码词条、非键名单字优先词条到短语
 removeFromSystemPhrase() = 检测系统短语占用的编码,\n并将这些词条转换为单语格式并返回,\n返回的短语为文本格式
 unique() = 一码一词，不限单字
-sort() = @.sort(\n	function(code,texts){\n		__/*code为编码,texts为对应的词语数组,返回调频后的新词语数组*/\n		return texts;\n	}\n)
+sort() = @.sort(\n	function(code,texts){\n		__/*code为编码,texts为对应的词语数组,返回调频后的新词语数组\n返回null忽略*/\n		return texts;\n	}\n)
+loadWordWeight(.(filePath,reorder) = 加载权重文件\n@filePath参数指定路径，\n一行一词，前词后权重，制表符分隔词与权重\n@reorder参数指定是否根据词频调整候选排序
 end intellisense**/

@@ -27,7 +27,7 @@ winform.chkEnableHotkey.skin(style.checkBox);
 
 import config
 import wubi.hotkey;
-if(!#config.hotkey.editTable){
+if(!config.hotkey.editTable){
 	config.hotkey.editTable = wubi.hotkey.default; 
 } 
 winform.bindConfig( config.hotkey,{
@@ -39,7 +39,6 @@ winform.bindConfig( config.hotkey,{
 		["^chk"] = "checked";
 		["^edit"] = "text";
 	};
-	
 } );
 
 winform.chkEnableHotkey.oncommand = function(id,event){
@@ -50,6 +49,8 @@ winform.chkEnableHotkey.oncommand = function(id,event){
 winform.btnSave.skin(style.primaryButton)
 var hotkeyMgr;
 winform.btnSave.oncommand = function(id,event){
+    config.hotkey.save();
+    
     if(!winform.chkEnableHotkey.checked){
     	if(hotkeyMgr){
     		hotkeyMgr.close();

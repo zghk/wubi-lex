@@ -10,17 +10,18 @@ btnCopyToSystem={cls="plus";text="安装到系统码表";left=201;top=12;right=3
 btnSave={cls="plus";text="保存码表";left=802;top=560;right=937;bottom=596;align="left";bgcolor=11580047;db=1;dr=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome');padding={left=15}};iconText='\uF0C7';notify=1;tabstop=1;textPadding={left=39};z=7};
 btnSearch={cls="plus";text='\uF002';left=604;top=569;right=633;bottom=592;color=3947580;db=1;dr=1;font=LOGFONT(h=-16;name='FontAwesome');iconColor=2960685;notify=1;z=6};
 btnSimplified={cls="plus";text="精简码表";left=659;top=560;right=794;bottom=596;align="left";bgcolor=11580047;db=1;dr=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome');padding={left=15}};iconText='\uF03A';notify=1;tabstop=1;textPadding={left=39};z=8};
+ddAppendToSystem={cls="plus";text="追加到系统码表";left=803;top=597;right=974;bottom=628;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=9}};iconText='\uF271';notify=1;tabstop=1;textPadding={left=26};z=19};
 ddChar1={cls="plus";text="仅保留单字";left=659;top=373;right=876;bottom=404;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);notify=1;tabstop=1;textPadding={left=20};z=10};
 ddChar2={cls="plus";text="仅保留单字、双字词";left=659;top=404;right=876;bottom=435;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);notify=1;tabstop=1;textPadding={left=20};z=9};
 ddGb2312={cls="plus";text="仅保留 GB2312 常用汉字";left=659;top=497;right=876;bottom=528;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);notify=1;tabstop=1;textPadding={left=20};z=12};
-ddSaveAs={cls="plus";text="存为新码表";left=803;top=661;right=974;bottom=692;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=9}};iconText='\uF016';notify=1;tabstop=1;textPadding={left=26};z=16};
-ddSaveToCurrent={cls="plus";text="存为当前选中码表";left=803;top=630;right=974;bottom=661;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=9}};iconText='\uF022';notify=1;tabstop=1;textPadding={left=26};z=18};
-ddSaveToSystem={cls="plus";text="存为系统码表";left=803;top=599;right=974;bottom=630;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=9}};iconText='\uF17A ';notify=1;tabstop=1;textPadding={left=26};z=17};
+ddSaveAs={cls="plus";text="存为新码表";left=803;top=690;right=974;bottom=721;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=9}};iconText='\uF016';notify=1;tabstop=1;textPadding={left=26};z=16};
+ddSaveToCurrent={cls="plus";text="存为当前选中码表";left=803;top=659;right=974;bottom=690;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=9}};iconText='\uF022';notify=1;tabstop=1;textPadding={left=26};z=18};
+ddSaveToSystem={cls="plus";text="存为系统码表";left=803;top=628;right=974;bottom=659;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=9}};iconText='\uF17A ';notify=1;tabstop=1;textPadding={left=26};z=17};
 ddSimplified={cls="plus";text="一字一码 ( 出简不出全 )";left=659;top=435;right=876;bottom=466;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);notify=1;tabstop=1;textPadding={left=20};z=13};
 ddSimplized={cls="plus";text="移除繁体字";left=659;top=528;right=876;bottom=559;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);notify=1;tabstop=1;textPadding={left=20};z=11};
 ddUnique={cls="plus";text="一码一词 ( 不限单字 )";left=659;top=466;right=876;bottom=497;align="left";bgcolor=-6960024;border={color=-9920564;radius=1;width=1};font=LOGFONT(h=-15);notify=1;tabstop=1;textPadding={left=20};z=15};
 editLex={cls="edit";left=281;top=59;right=969;bottom=556;db=1;dl=1;dr=1;dt=1;edge=1;font=LOGFONT(h=-16);multiline=1;vscroll=1;z=1};
-editSearch={cls="plus";left=330;top=566;right=595;bottom=590;align="right";border={bottom=1;color=-8355712};db=1;dl=1;dr=1;editable=1;font=LOGFONT(h=-16);z=14};
+editSearch={cls="plus";left=330;top=566;right=595;bottom=590;align="right";border={bottom=1;color=-8355712};db=1;dl=1;dr=1;editable=true;font=LOGFONT(h=-16);z=14};
 lbTip={cls="plus";left=410;top=15;right=946;bottom=49;color=2960685;font=LOGFONT(h=-16;name='FontAwesome');z=5};
 listbox={cls="listbox";left=11;top=59;right=275;bottom=595;db=1;dl=1;dt=1;edge=1;font=LOGFONT(h=-16);items={};vscroll=1;z=4}
 )
@@ -94,7 +95,7 @@ app.lexContents.loadDefault();
 
 import tsfUtil;
 import key.ime;
-winform.btnCopyToSystem.oncommand = function(id,event){
+var installLex = function(appendLex){ 
 	var selIndex = winform.listbox.selIndex-1;  
 	if(selIndex){  
 		if( app.lexContents.isUrl(selIndex) ) {
@@ -114,10 +115,10 @@ winform.btnCopyToSystem.oncommand = function(id,event){
 		winform.btnSave.disabled = true;
 	  
 		var ok,err = win.invoke(
-			function(srcPath,winform){
+			function(srcPath,appendLex,winform){
 				import tsfUtil;
-				return tsfUtil.intallLexFile(srcPath,winform);
-			},srcPath,winform) 
+				return tsfUtil.intallLexFile(srcPath,appendLex,winform);
+			},srcPath,appendLex,winform) 
 		publish("wubi.system.lex.changed");
 	  
 	  	key.ime.changeRequest(0x4090409); 
@@ -125,7 +126,11 @@ winform.btnCopyToSystem.oncommand = function(id,event){
 		winform.btnCopyToSystem.disabledText = null; 
 		winform.listbox.disabled = false;
 		winform.btnSave.disabled = false;
-	}	
+	} 
+}
+
+winform.btnCopyToSystem.oncommand = function(id,event){
+	installLex(false);	
 }
 
 
@@ -169,9 +174,15 @@ winform.listbox.wndproc = function(hwnd,message,wParam,lParam){
 						app.lexContents.removeByIndex(selIndex-1);
 					} ) 
 					
+					winform.popmenu.add();	
 					winform.popmenu.add('安装到系统码表',function(id){ 
 						winform.listbox.selIndex = selIndex; 
-						winform.btnCopyToSystem.oncommand();
+						installLex(false);
+					} ) 
+						
+					winform.popmenu.add('追加到系统码表',function(id){ 
+						winform.listbox.selIndex = selIndex; 
+						installLex(true);
 					} )  
 					
 					winform.popmenu.add();				
@@ -195,7 +206,7 @@ winform.listbox.wndproc = function(hwnd,message,wParam,lParam){
 						function(winform,lexPath){
 							import wubi.lexFile; 
 							var wubiLex = wubi.lexFile(lexPath); 
-							winform.editLex.text = wubiLex.tostring(); 
+							winform.editLex.text = wubiLex.tostring(false,false,true); 
 							winform.editLex.modified = false;
 							
 							statistics = wubiLex.statistics();
@@ -205,6 +216,25 @@ winform.listbox.wndproc = function(hwnd,message,wParam,lParam){
 						},winform,lexPath
 					) 
 				} ) 
+				if(selIndex>1){	
+					var lexPath = app.lexContents.getPathByIndex(selIndex-1)
+					var lexName = app.lexContents.getNameByIndex(selIndex-1)
+					winform.popmenu.add('重新计算权重',function(id){  
+						winform.listbox.disabled = true;
+						
+						var frmWordWeight= winform.loadForm("\dlg\dict\wordWeight.aardio");
+						frmWordWeight.setLexTitle(lexName);
+						frmWordWeight.lexFilePath = lexPath; 
+						
+						if(frmWordWeight.doModal()){
+							winform.listbox.disabled = false;
+							winform.msgOk("操作已完成")
+						} 
+						else {
+							winform.listbox.disabled = false;
+						}
+					} )  
+				}
 				
 				winform.popmenu.add();
 				
@@ -495,9 +525,10 @@ winform.ddSimplized.oncommand = function(id,event){
 			wubiLex.addText(winform.editLex.text);
 					
 			import string.conv;	
+			var simplized = string.conv.simplized;
 			wubiLex.filter(
 				function(txt,code){
-					return ..string.conv.simplized(txt)===txt;
+					return simplized(txt)===txt;
 				}
 			)
 				
@@ -549,10 +580,10 @@ winform.ddGb2312.oncommand = function(id,event){
 			wubiLex.addText(winform.editLex.text);
 					
 			import string.conv;	
+			var isGb2312 = string.conv.isGb2312;
 			wubiLex.filter(
-				function(txt,code){
-					txt = string.fromto(txt,65001,936);
-					return (txt[1]>=0xB0 && txt[1]<=0xF7 && txt[2]>=0xA1 && txt[2]<=0xFE);
+				function(txt,code){ 
+					return isGb2312(txt);
 				}
 			)
 			
@@ -592,6 +623,24 @@ winform.ddSimplified.oncommand = function(id,event){
 }
 
 var createMenuItems = function(){
+    
+    var wubiTextTableConvert = function(reverse,singleLine,sortWeight){
+    	thread.invoke( 
+			function(winform,reverse,singleLine,sortWeight){
+				winform.editLex.busy(true,"正在转换格式 ……");
+				
+				import wubi.lexFile;
+				var wubiLex = wubi.lexFile("");
+				wubiLex.addText(winform.editLex.text);
+				winform.editLex.text = wubiLex.tostring(reverse,singleLine,sortWeight);
+				
+				var statistics = wubiLex.statistics(); 
+				winform.editLex.busy(false
+					,string.format("总编码数：%d 重码数：%d",statistics.totalTxt,statistics.coincidentTxt ) )
+			},winform,reverse,singleLine,sortWeight
+		)
+    }
+    
 		
 	return {
 		{ /*---分隔线---*/ };
@@ -661,92 +710,34 @@ var createMenuItems = function(){
 		{ "转换格式";{ 
 			{ "编码在前 / 词组在后";
 				function(id){  
-					thread.invoke( 
-						function(winform){
-							winform.editLex.busy(true,"正在转换格式为:码前词后");
-							
-							import wubi.lexFile;
-							var wubiLex = wubi.lexFile("");
-							wubiLex.addText(winform.editLex.text);
-							winform.editLex.text = wubiLex.tostring(false);
-							
-							var statistics = wubiLex.statistics(); 
-							winform.editLex.busy(false
-								,string.format("总编码数：%d 重码数：%d",statistics.totalTxt,statistics.coincidentTxt ) )
-						},winform
-					)	 
+					wubiTextTableConvert(false,false,false); 
 				}
 			}  
 			{ "编码在前 / 词组在后 / 一码一行";
 				function(id){  
-					thread.invoke( 
-						function(winform){
-							winform.editLex.busy(true,"正在转换格式为:码前词后/一码一行");
-							
-							import wubi.lexFile;
-							var wubiLex = wubi.lexFile("");
-							wubiLex.addText(winform.editLex.text);
-							winform.editLex.text = wubiLex.tostring(false,true);
-							
-							var statistics = wubiLex.statistics(); 
-							winform.editLex.busy(false
-								,string.format("总编码数：%d 重码数：%d",statistics.totalTxt,statistics.coincidentTxt ) );
-						},winform
-					)	 
+					wubiTextTableConvert(false,true,false); 
 				}
 			} 
+			
+			{ "编码在前 / 词组在后 / 升序权重";
+				function(id){  
+					wubiTextTableConvert(false,false,true); 
+				}
+			}; 
+			
 			{ "词组在前 / 编码在后";
 				function(id){  
-					thread.invoke( 
-						function(winform){
-							winform.editLex.busy(true,"正在转换格式为:词前码后");
-							
-							import wubi.lexFile;
-							var wubiLex = wubi.lexFile("");
-							wubiLex.addText(winform.editLex.text);
-							winform.editLex.text = wubiLex.tostring(true);
-							
-							var statistics = wubiLex.statistics(); 
-							winform.editLex.busy(false
-								,string.format("总编码数：%d 重码数：%d",statistics.totalTxt,statistics.coincidentTxt ) )
-						},winform
-					)	 
+					wubiTextTableConvert(true,false,false);  
 				}
 			};  
 			{ "词组在前 / 编码在后 / 一行多码";
 				function(id){
-					thread.invoke( 
-						function(winform){
-							winform.editLex.busy(true,"正在转换格式为:词前码后/一行多码");
-							
-							import wubi.lexFile;
-							var wubiLex = wubi.lexFile("");
-							wubiLex.addText(winform.editLex.text);
-							winform.editLex.text = wubiLex.tostring(true,true);
-							
-							var statistics = wubiLex.statistics(); 
-							winform.editLex.busy(false
-								,string.format("总编码数：%d 重码数：%d",statistics.totalTxt,statistics.coincidentTxt ) )
-						},winform
-					)	 
+					wubiTextTableConvert(true,true,false);   
 				}
 			};
-			{ "词组在前 / 编码在后 / 权重";
+			{ "词组在前 / 编码在后 / 降序权重";
 				function(id){  
-					thread.invoke( 
-						function(winform){
-							winform.editLex.busy(true,"正在转换格式为:词前码后");
-							
-							import wubi.lexFile;
-							var wubiLex = wubi.lexFile("");
-							wubiLex.addText(winform.editLex.text);
-							winform.editLex.text = wubiLex.tostring(true,false,true);
-							
-							var statistics = wubiLex.statistics(); 
-							winform.editLex.busy(false
-								,string.format("总编码数：%d 重码数：%d",statistics.totalTxt,statistics.coincidentTxt ) )
-						},winform
-					)	 
+					wubiTextTableConvert(true,false,true); 
 				}
 			}; 
 		}}
@@ -842,6 +833,23 @@ var createMenuItems = function(){
 		}}
 		
 		{ "词频调整";{ 
+			{ "重新计算权重";
+				function(id){ 
+					winform.editLex.readonly = true;
+					
+					var frmWordWeight= winform.loadForm("\dlg\dict\wordWeight.aardio");
+					frmWordWeight.setLexTitle("码表编辑器文本");
+					
+					frmWordWeight.lexTextData = winform.editLex.text;
+					var text = frmWordWeight.doModal()
+					if(text){
+						winform.editLex.text = text
+						winform.lbTip.text = "操作已完成"
+					} 
+					
+					winform.editLex.readonly = false;
+				}
+			};
 			{ "单字优先";
 				function(id){
 					thread.invoke( 
@@ -868,6 +876,7 @@ var createMenuItems = function(){
 										}
 									}
 									
+									if(!(#chars && #texts)){ return null;}
 									reverse(chars);
 									return append(chars,texts) 
 								}
@@ -909,6 +918,7 @@ var createMenuItems = function(){
 										}
 									}
 									
+									if(!(#chars && #texts)){ return null;}
 									reverse(chars);
 									return append(chars,texts) 
 								}
@@ -1048,7 +1058,8 @@ winform.btnSearch.skin( style.plainButton );
 winform.editSearch.setCueBannerText("请输入查找文本")
 
 import win.ui.tabs;
-var menuSave = win.ui.tabs(winform.ddSaveToSystem,winform.ddSaveToCurrent,winform.ddSaveAs);
+var menuSave = win.ui.tabs(winform.ddSaveToSystem
+	,winform.ddAppendToSystem,winform.ddSaveToCurrent,winform.ddSaveAs);
 menuSave.skin( style.dropdown );
 menuSave.initPopup();
 
@@ -1127,8 +1138,7 @@ winform.ddSaveAs.oncommand = function(id,event){
 	)
 }
 
-winform.ddSaveToSystem.oncommand = function(id,event){
-		
+var instalLexText = function(appendLex){
 	winform.editLex.setFocus(); 	
 	winform.btnSave.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'};				
 	winform.btnCopyToSystem.disabled = true;
@@ -1136,11 +1146,11 @@ winform.ddSaveToSystem.oncommand = function(id,event){
 	winform.listbox.disabled = true;
 		
 	var ok,err = win.invoke(
-		function(lexText,winform){
+		function(lexText,appendLex,winform){
 			import tsfUtil;
-			return tsfUtil.intallLexText(lexText,winform);
+			return tsfUtil.intallLexText(lexText,appendLex,winform);
 			
-		},winform.editLex.text,winform) 
+		},winform.editLex.text,appendLex,winform) 
 		
 	tsfUtil.activate();
 	
@@ -1152,9 +1162,17 @@ winform.ddSaveToSystem.oncommand = function(id,event){
 	
 	if(ok){
 		winform.editLex.modified = false;
-	}
+	}	
 }
 
+
+winform.ddSaveToSystem.oncommand = function(id,event){
+	instalLexText(false);
+}
+
+winform.ddAppendToSystem.oncommand = function(id,event){
+	instalLexText(true);
+}
 
 import style;
 winform.btnAddFile.oncommand = function(id,event){
